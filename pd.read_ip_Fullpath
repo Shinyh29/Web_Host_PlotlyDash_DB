@@ -1,0 +1,2 @@
+# Ex) pd.read_csv(r"\\localip\\Full_PathFile)
+# df = pd.read_csv(r"\\178.50.0.170\E\MyName\test.csv")  
