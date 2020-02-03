@@ -1,0 +1,24 @@
+import gspread
+import pandas as pd
+from oauth2client.service_account import ServiceAccountCredentials
+scope = ['https://spreadsheets.google.com/feeds']
+import json
+json_file = {
+키 : 벨류 ,
+키 : 밸류 
+}
+
+
+json_data = json.dumps(json_file)
+jobj=json.loads(json_data)
+print(type(json_file))
+credentials = ServiceAccountCredentials.from_json_keyfile_dict(jobj,scope)
+gc = gspread.authorize(credentials)
+print(gc)
+
+wb = gc.open_by_url("https://docs.google.com/spreadsheets/d/1hsYpl0zIL0GAd4LYdVy8Eue1REJuOBLTsS4ZwOPT0RY/edit#gid=0")
+sheet = ws.worksheet('보호예수')
+data = pd.DataFrame(sheet.get_all_records()) 
+
+#print(data)
+data.head()
