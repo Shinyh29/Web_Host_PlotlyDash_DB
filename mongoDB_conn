@@ -13,7 +13,19 @@ df_0j = df_0.to_json(orient = 'table')
 df_0j.read_json(_, orient='index')
 import json
 
+# ----------------------------------------------------------------
+## db 로 pandas를 넣을떄 
+## type(df_0.to_dict('records'))  == List
 
-df_0json = json.loads(df_0j)
-db.a.insert(df_0json)
-pd.DataFrame(db.a.find().sort('_id'))
+records = df_0.to_dict('records')
+db.a.insert_many(records)
+
+
+
+# ---------------------------------------------------------------
+## 읽을때  pd로 
+pd.DataFrame(list(db.a.find()))
+
+
+# --------------------Date 컬럼 있는것 다 찾기
+# pd.DataFrame(db.a.find().sort('Date'))[0:10]
