@@ -8,10 +8,10 @@ client = MongoClient('mongodb://shinyh30:1411@15.164.251.62:27017')
 db = client.excels
 
 # df_0.to_json()
-df_0j = df_0.to_json(orient = 'index')
-df_0j = df_0.to_json(orient = 'table')
-df_0j.read_json(_, orient='index')
-import json
+# df_0j = df_0.to_json(orient = 'index')
+# df_0j = df_0.to_json(orient = 'table')
+# df_0j.read_json(_, orient='index')
+# import json
 
 # ----------------------------------------------------------------
 ## db 로 pandas를 넣을떄 
@@ -29,3 +29,26 @@ pd.DataFrame(list(db.a.find()))
 
 # --------------------Date 컬럼 있는것 다 찾기
 # pd.DataFrame(db.a.find().sort('Date'))[0:10]
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+'''
+############################
+Sub running_py()
+Dim wsh As Object
+Set wsh = VBA.CreateObject("WScript.Shell")
+Dim waitOnReturn As Boolean: waitOnReturn = True
+Dim windowStyle As Integer: windowStyle = 1
+
+wsh.Run "cmd.exe", windowStyle
+Application.Wait (Now + TimeValue("0:00:03"))
+u = "python c:\Temp\hellop.py"
+' u 뒤에는 python script path
+
+Application.SendKeys u
+Application.Wait (Now + TimeValue("0:00:01"))
+Application.SendKeys "~"
+End Sub
+####################################
+'''
