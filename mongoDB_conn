@@ -1,3 +1,4 @@
+# coding=<utf-8>
 xlpath = 'C:\\Users\\신영한\\Downloads\\ww_VB\\Daily_Market_ohlc.xlsx'
 import pandas as pd
 from pymongo import MongoClient
@@ -31,6 +32,7 @@ pd.DataFrame(list(db.a.find()))
 # pd.DataFrame(db.a.find().sort('Date'))[0:10]
 
 # ---------------------------------------------------------------
+print("mongoDB : Updated -!!")
 # ---------------------------------------------------------------
 
 '''
