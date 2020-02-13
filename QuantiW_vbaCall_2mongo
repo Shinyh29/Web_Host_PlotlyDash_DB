@@ -1,0 +1,43 @@
+# coding=<utf-8>
+import pandas as pd
+import requests
+
+
+################
+import os
+import win32com.client
+
+#Launch Excel and Open Wrkbook
+xl=win32com.client.Dispatch("Excel.Application")  
+
+path =  "C:\\Users\\exp19103\\shinyh\\python\\to_MongoDB\\자사주공시_Monitor.xlsm"
+xl.Workbooks.Open(Filename=path) #opens workbook in readonly mode. 
+xl.Visible = True
+#Run Macro
+xl.Application.Run("자사주공시_Monitor.xlsm!Module1.Refresh_Handler") 
+
+#Save Document and Quit.
+#xl.Application.Save()
+##xl.Application.Quit() 
+
+###########################
+
+
+
+df_0 = pd.read_excel(path, sheet_name = "보통자사주")
+df_0 = df_0[6:24][['Unnamed: 2','Unnamed: 3']]
+#print(df0.head())
+
+from pymongo import MongoClient
+client = MongoClient('mongodb://shinyh30:1411@13.125.252.59:27017')
+db = client.excels
+
+
+db.d.delete_many({})
+
+records = df_0.to_dict('records')
+db.d.insert_many(records)
+
+#df_0[6:15][['Unnamed: 2','Unnamed: 3']]
+
+pd.DataFrame(list(db.d.find()))
