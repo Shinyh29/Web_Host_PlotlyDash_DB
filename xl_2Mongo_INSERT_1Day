@@ -17,7 +17,7 @@ for sheet in ws_names:
     
         droped = droped.reset_index()
         droped.rename(columns={'Code':'Date'},inplace=True)
-        client = MongoClient('mongodb://192.168.74.32:27017')
+        client = MongoClient('mongodb://{IP}:27017')
         db = client.excels
         u = pd.DataFrame(droped.loc[len(droped.index)-1]).T
         records = u.to_dict('records')
