@@ -4,8 +4,8 @@ import pandas as pd
 from pymongo import MongoClient
 
 df_0 = pd.read_excel(xlpath, sheet_name = "df_0")
-
-client = MongoClient('mongodb://shinyh30:1411@15.164.251.62:27017')
+## shinyh30 : MongoDB 사용자
+client = MongoClient('mongodb://shinyh30:{PW}@{PublicIP}:27017')
 db = client.excels
 
 # df_0.to_json()
