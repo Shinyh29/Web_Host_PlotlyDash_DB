@@ -1,0 +1,32 @@
+#  Insert_1row
+
+from pymongo import MongoClient
+import pandas as pd
+url = 'C:\\Users\\kanghyejin\\Documents\\NewShin\\to_MongoDB\\All_data.xlsm'
+ws_names =pd.ExcelFile(url).sheet_names
+print(len(ws_names))
+dfs = {}
+i = 0
+for sheet in ws_names:
+    try:
+        dfs[sheet] = pd.read_excel(url,sheet_name = sheet, header= 7,na_values=None ,index_col='Code')
+        droped = dfs[sheet].drop('Base Date')
+        droped.index[3]
+        droped = droped.drop(droped.index[3])
+        #df_0 = pd.read_excel(xlpath, sheet_name = "Sheet5")
+    
+        droped = droped.reset_index()
+        droped.rename(columns={'Code':'Date'},inplace=True)
+        client = MongoClient('mongodb://192.168.74.32:27017')
+        db = client.excels
+        u = pd.DataFrame(droped.loc[len(droped.index)-1]).T
+        records = u.to_dict('records')
+        # sheet  :: 시트명  * 없으면 만든다  
+        db.ws_names[i].insert_many(records)
+        print(db.ws_names[i])
+        i = i+1
+        if i == len(ws_names):
+            break
+    except Exception as e:
+        print(e)
+
