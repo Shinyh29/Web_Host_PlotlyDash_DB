@@ -1,0 +1,35 @@
+import pandas as pd
+from pymongo import MongoClient
+
+#client = MongoClient('mongodb://{DBuser}:{userPW}@{PublicIP}:27017')
+client = MongoClient('mongodb://{DB_IP}:27017')
+db = client.excels
+# 주어진 날짜를  -> datetime 형식으로 변경
+# 객체로 전달
+# db.시트명.find({ '컬럼명' : 찾을값 })
+# >> return: 찾은값의  row
+import datetime
+
+
+# date_time_str 에   yyyy-mm-dd형태로 전달
+date_time_str = '2020-03-10'
+# String to_TimeObject
+date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d')
+
+
+
+from_date = datetime.datetime.strptime('2020-03-04','%Y-%m-%d')
+to_date = date_time_obj
+#print(date_time_obj)
+
+## mongodb 에서 date로 한row만 찾기 ------------------------------------------------------------------------
+printdb = pd.DataFrame(list(db['ws_names.10'].find({'Date': date_time_obj})))
+
+## mongodb 에서 date로 범위찾기 -> $gte,  $lte  명령어 사용 , dict로 전달------------------------------------
+timerange = pd.DataFrame(list(db['ws_names.10'].find({"Date": {"$gte": from_date, "$lt": to_date}})))
+#print(timerange)
+print('Date 범위로 조회')
+print(timerange[['Date','A000080','A000210']])
+
+print('\n\nDate 특정일로 조회')
+print(printdb[['Date','A000080','A000210']])
