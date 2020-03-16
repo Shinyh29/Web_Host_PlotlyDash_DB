@@ -1,0 +1,43 @@
+Sub Refesh_Handler()
+''' 전체 Sheets Refresh Update ''''
+
+Dim xlpath
+Dim Period_D As Long
+Dim oHyper As Object
+Dim oSheet As Worksheet
+
+Dim PeridoFrom As String
+Period_D = 2
+
+xlpath = ThisWorkbook.Path & ThisWorkbook.Name
+    Debug.Print xlpath
+    
+'' Default Sheet
+Sheets("surprise_date").Activate
+
+
+For Each oSheet In Application.ActiveWorkbook.Worksheets
+    oSheet.Activate
+    
+    PeriodFrom = "=text(workday(today(),-" & Period_D & ")," & Chr(34) & "YYYYMMDD" & Chr(34) & ")"
+    Debug.Print PeriodFrom
+    oSheet.Range("B5").Value = PeriodFrom
+   
+
+    Set Refresh_tb = oSheet.Range(Range("B14"), Range("B14").End(xlToRight).End(xlDown))
+    'On Error Resume Next
+    Refresh_tb = Refresh_tb.Activate
+    Selection.Clear
+
+    
+    Debug.Print oSheet.Name
+    
+    
+    For Each oHyper In ActiveSheet.Hyperlinks
+            Debug.Print oHyper.ScreenTip
+            oHyper.Follow
+    Next
+Next
+
+
+End Sub
