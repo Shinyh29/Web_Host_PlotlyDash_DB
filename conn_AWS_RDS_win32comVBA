@@ -1,4 +1,4 @@
-url = 'C:\\Users\\exp19103\\shinyh\\vba\\All_data.xlsm'
+url = 'C:\\Users\\디렉토리'
 import win32com.client
 xl = win32com.client.Dispatch('Excel.Application')
 xl.Visible=True
@@ -69,7 +69,7 @@ conn = engine.connect()
 #         dfs[sheet].to_sql(name=item_tb, con=engine, if_exists='replace', chunksize=10000)
 
 
-# url = 'C:\\Users\\exp19103\\shinyh\\vba\\All_data.xlsm'
+# url = 'C:\\Users\\디렉토리'
 # ws_names =pd.ExcelFile(url).sheet_names
 # sheet =ws_names[1] # 0 : Daily_tosql / 1: Bulk_tosql
 # dfs = {}
