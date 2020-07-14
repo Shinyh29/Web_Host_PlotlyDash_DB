@@ -62,11 +62,22 @@ conn = engine.connect()
 
 
 # ----------------------------------DB로  sql문 날려  저장하는  함수 
+def insert_pd():
+     try:
+         df.to_sql(name= item_tb, con=engine, if_exists='append', chunksize=10000,index =False)
+     except:
+         df.to_sql(name=item_tb, con=engine, if_exists='replace', chunksize=10000,index =False)
+#--------------------------------------------------------------------------------------------------
 # def insert_pd():
 #     try:
 #         dfs[sheet].to_sql(name= item_tb, con=engine, if_exists='append', chunksize=10000)
 #     except:
 #         dfs[sheet].to_sql(name=item_tb, con=engine, if_exists='replace', chunksize=10000)
+#--------------------------------------------------------------------------------------------------
+
+
+
+
 
 
 # url = 'C:\\Users\\디렉토리'
@@ -93,4 +104,32 @@ conn = engine.connect()
 #     wb.Application.Run('BDay_Minus')
 #     wb.Save()
 #     dfs = {}
-#     dfs[sheet] = pd.read_excel(url, sheet_name=sheet, header=1, na_values=None, index_col='Ticker')[['Date','Value']]
+#     dfs[sheet] = pd.read_excel(url, sheet_name=sheet, header=1, na_values=None, index_col='Ticker')[['Date','Value']]\
+
+
+
+
+
+############# DB에 넣고  첫줄 출력하고 
+############# 함수 실행 
+#############
+#############
+
+ for i in range(0,4):
+    insert_pd()
+    
+    dfc = pd.read_sql(f'SELECT * FROM {item_tb}', engine, index_col='Date')
+    print(dfc.tail())
+    
+    wb.Application.Run('BDay_Minus')
+    wb.Application.Calculation= True
+    ###wb.Application.Wait(Now + TimeSerial(0, 0, 0.2))  --VBA 의 Wait을 어떻게 하징
+    
+    #wb.Save()
+    df = pd.DataFrame()
+    df = pd.DataFrame(wb.sheets('Bulk_tosql').Range("A2:C5494").Value)
+    df = df.drop([0],axis=0)
+    df = df.rename({0:'Ticker',1:'Date',2:'Value'},axis='columns')
+    
+
+
