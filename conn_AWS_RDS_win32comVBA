@@ -1,0 +1,96 @@
+url = 'C:\\Users\\exp19103\\shinyh\\vba\\All_data.xlsm'
+import win32com.client
+xl = win32com.client.Dispatch('Excel.Application')
+xl.Visible=True
+
+try:
+    wb = xl.activeworkbook
+    if wb.Name =="All_data.xlsm":
+        None
+except:
+    wb = xl.Workbooks.Open(url)
+
+wb.sheets('Bulk_tosql').activate
+
+item_tb = wb.ActiveSheet.Range("D1").Value
+
+print(f'item_name : MysqlTable {item_tb}')
+
+
+# ---------------------------------------------------------------
+
+import pymysql
+import pandas as pd
+#df = pd.read_excel('C:\\lockups5.xlsx')
+from sqlalchemy import create_engine
+pd.set_option('display.max_rows', 10000)
+pd.set_option("display.max_columns",100)
+pd.set_option('max_colwidth', 30)
+pd.set_option('colheader_justify', 'left')
+pd.set_option('expand_frame_repr', True)
+# pd.set_option('large_repr', 'info')
+from pandas.tseries.offsets import BDay, Day
+today = pd.datetime.today()
+what_date1 = today-BDay(0)
+print(what_date1)
+# MySQL Connector using pymysql
+pymysql.install_as_MySQLdb()
+
+
+host = 'AWS-RDS # End_Point '
+port = 3306
+username = 'db유저이름'
+password = 'db패스워드'
+db_name = '접속할_db이름'
+
+
+# ----------DB 전달 엔진 만들기 *연결에 제일중요 ------------------------------------------------------------
+# engine = create_engine("mysql+pymysql://아이디:"+"암호"+"@mysql주소:포트/데이터베이스이름?charset=utf8", encoding='utf-8')
+
+engine = create_engine("mysql+mysqldb://username:"+ password +"@" + host+  ":" + port  +" /" + db_name, encoding='utf-8')
+conn = engine.connect()
+
+
+
+# ----------주피터 Qtconsole _  win32com 으로  VBA로  XL 핸들링  ------------------------------------------------------------
+## when_df_insert__Firset
+# url = 'C:\\Users\\디렉토리'
+# ws_names =pd.ExcelFile(url).sheet_names
+# sheet =ws_names[1] # 0 : Daily_tosql / 1: Bulk_tosql
+
+
+
+
+# ----------------------------------DB로  sql문 날려  저장하는  함수 
+# def insert_pd():
+#     try:
+#         dfs[sheet].to_sql(name= item_tb, con=engine, if_exists='append', chunksize=10000)
+#     except:
+#         dfs[sheet].to_sql(name=item_tb, con=engine, if_exists='replace', chunksize=10000)
+
+
+# url = 'C:\\Users\\exp19103\\shinyh\\vba\\All_data.xlsm'
+# ws_names =pd.ExcelFile(url).sheet_names
+# sheet =ws_names[1] # 0 : Daily_tosql / 1: Bulk_tosql
+# dfs = {}
+# dfs[sheet] = pd.read_excel(url, sheet_name=sheet, header=1, na_values=None, index_col='Ticker')[['Date','Value']]
+
+
+# wb.Application.Run('BDay_Minus')
+# 엑셀  VBA. BDay_Minus   메서드 실행
+
+# wb.Save()
+# 엑셀 저장 매크로
+
+# dfs = {}
+# dfs[sheet] = pd.read_excel(url, sheet_name=sheet, header=1, na_values=None, index_col='Ticker')[['Date','Value']]
+
+
+# for i in range(0,4):
+#     insert_pd()
+#     df2 = pd.read_sql(f'SELECT * FROM {item_tb}', conn, index_col='Date')
+#     print(df2.tail())
+#     wb.Application.Run('BDay_Minus')
+#     wb.Save()
+#     dfs = {}
+#     dfs[sheet] = pd.read_excel(url, sheet_name=sheet, header=1, na_values=None, index_col='Ticker')[['Date','Value']]
