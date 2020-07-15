@@ -49,8 +49,8 @@ db_name = '접속할_db이름'
 
 engine = create_engine("mysql+mysqldb://username:"+ password +"@" + host+  ":" + port  +" /" + db_name + "?charset=utf8", encoding='utf-8')
 conn = engine.connect()
-
-
+## conn.close() 
+## 로   db 연결 닫음 -------------중요  . rds 모니터링  db연결갯수 계속 늘어남
 
 # ----------주피터 Qtconsole _  win32com 으로  VBA로  XL 핸들링  ------------------------------------------------------------
 ## when_df_insert__Firset
