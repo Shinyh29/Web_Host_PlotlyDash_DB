@@ -47,7 +47,7 @@ db_name = '접속할_db이름'
 # ----------DB 전달 엔진 만들기 *연결에 제일중요 ------------------------------------------------------------
 # engine = create_engine("mysql+pymysql://아이디:"+"암호"+"@mysql주소:포트/데이터베이스이름?charset=utf8", encoding='utf-8')
 
-engine = create_engine("mysql+mysqldb://username:"+ password +"@" + host+  ":" + port  +" /" + db_name, encoding='utf-8')
+engine = create_engine("mysql+mysqldb://username:"+ password +"@" + host+  ":" + port  +" /" + db_name + "?charset=utf8", encoding='utf-8')
 conn = engine.connect()
 
 
@@ -117,9 +117,9 @@ def insert_pd():
 
  for i in range(0,4):
     insert_pd()
-    
-    dfc = pd.read_sql(f'SELECT * FROM {item_tb}', engine, index_col='Date')
-    print(dfc.tail())
+    #---------------------------------------[AWS_RDS] 에서 data가져올경우  [EC2가 아닌곳에서 ] read_sql 하지말것. 통신비용(=Transfer) 나옮 .    
+    #dfc = pd.read_sql(f'SELECT * FROM {item_tb}', engine, index_col='Date')
+    #print(dfc.tail())
     
     wb.Application.Run('BDay_Minus')
     wb.Application.Calculation= True
